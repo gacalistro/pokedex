@@ -24,13 +24,14 @@ export function List() {
   const [search, setSearch] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [pokemonList, setPokemonList] = useState<PokemonListProps[]>([]);
-  const [filteredPokemonList, setFilteredPokemonList] = useState<
-    PokemonListProps[]
-  >([]);
 
   const route = useRoute();
 
   const { name, gen } = route.params as RegionItemProps;
+
+  const filteredPokemonList = pokemonList.filter((pokemon) =>
+    pokemon.name.includes(search)
+  );
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<PokemonListProps>) => (
@@ -47,18 +48,6 @@ export function List() {
     setShowInput(!showInput);
   }
 
-  function handleFilterList() {
-    const updatedList = pokemonList.filter((pokemon) =>
-      pokemon.name.includes(search.trim())
-    );
-
-    setFilteredPokemonList(updatedList);
-  }
-
-  useEffect(() => {
-    handleFilterList();
-  }, [search]);
-
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/generation/${gen}`)
       .then((response) => response.json())
@@ -70,7 +59,6 @@ export function List() {
         );
 
         setPokemonList(pokemonApi);
-        setFilteredPokemonList(pokemonApi);
       })
       .finally(() => setLoading(false));
   }, []);
