@@ -17,14 +17,9 @@ npm run start
 
 ```
 
-- web
+- web deployed on vercel
 
-```
-cd web/
-npm run dev
-
-# Go to http://localhost:3000
-```
+[Website](https://pokedex-xi-ochre.vercel.app/)
 
 ## Stack
 
